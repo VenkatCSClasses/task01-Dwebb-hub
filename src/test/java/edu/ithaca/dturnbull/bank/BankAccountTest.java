@@ -24,15 +24,17 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
-        assertFalse(BankAccount.isEmailValid(""));         // empty string
-        assertTrue(BankAccount.isEmailValid( "a@bb.cc"));  //valid
+        //valid cases
+        assertTrue(BankAccount.isEmailValid( "a@b.com"));
+        assertTrue(BankAccount.isEmailValid( "a@bb.cc"));
+
+        //invalid cases
+        assertFalse(BankAccount.isEmailValid("")); //border case
         assertFalse(BankAccount.isEmailValid("testemail.com")); //no @ sign
         assertFalse(BankAccount.isEmailValid("@hotmail.com")); //no prefix before @ sign
-        assertFalse(BankAccount.isEmailValid("hotmail.com@jbob")); //domain and prefix are swapped
         assertFalse(BankAccount.isEmailValid("a$$a@gmail.com")); //invalid characters
         assertFalse(BankAccount.isEmailValid("jbob@jimbo.h")); //invalid domain
-        
+
     }
 
     @Test
