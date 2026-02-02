@@ -21,7 +21,7 @@ class BankAccountTest {
         assertEquals(900, bankAccount.getBalance(), 0.001);
 
         //invalid case, 0 or less than zero withdraw
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(0));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(0));
 
         //edge case, getBalance on empty
         bankAccount.withdraw(900); 
@@ -41,11 +41,11 @@ class BankAccountTest {
         assertEquals(0, bankAccount.getBalance(), 0.001);
 
         //invalid withdrawal, boundary case: amnt is equal to 0
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(0));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(0));
         //invalid withdrawal, boundary case: amnt is larger than balance
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
         //invalid withdrawal, boundary case: amnt is negative
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-300));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-300));
 
 
     }
