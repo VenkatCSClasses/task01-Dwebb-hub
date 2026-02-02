@@ -7,33 +7,64 @@ import static org.junit.jupiter.api.Assertions.*;
 class BankAccountTest {
 
     @Test
-    void getBalanceTest() {
-        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+    void getBalanceTest() throws InsufficientFundsException{
+        BankAccount bankAccount = new BankAccount("a@b.com", 2000);
 
-        assertEquals(200, bankAccount.getBalance(), 0.001);
+        assertEquals(2000, bankAccount.getBalance(), 0.001);
+
+        //valid case: small withdraw
+        bankAccount.withdraw(100); 
+        assertEquals(1900, bankAccount.getBalance(), 0.001);
+
+        //valid case: large withdraw
+        bankAccount.withdraw(1000); 
+        assertEquals(900, bankAccount.getBalance(), 0.001);
+
+        //valid case: withdraw 0 so no change
+        bankAccount.withdraw(0); 
+        assertEquals(900, bankAccount.getBalance(), 0.001);
+
+        //edge case, getBalance on empty
+        bankAccount.withdraw(900); 
+        assertEquals(0, bankAccount.getBalance(), 0.001);
+        
     }
 
     @Test
     void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-        bankAccount.withdraw(100);
 
+        //valid withdrawal: amnt is less than balance but greater than 0
+        bankAccount.withdraw(100); 
         assertEquals(100, bankAccount.getBalance(), 0.001);
+        //valid withdrawal, boundary case: amnt is equal to balance
+        bankAccount.withdraw(100); 
+        assertEquals(0, bankAccount.getBalance(), 0.001);
+        //valid withdrawal, boundary case: amnt is equal to 0
+        bankAccount.withdraw(0); 
+        assertEquals(0, bankAccount.getBalance(), 0.001);
+
+        //invalid withdrawal, boundary case: amnt is larger than balance
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+        //invalid withdrawal, boundary case: amnt is negative
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-300));
+
+
     }
 
     @Test
     void isEmailValidTest(){
-        //valid cases
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        assertTrue(BankAccount.isEmailValid( "a@bb.cc"));
+        //Valid Cases:
+        assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address -- normal case -- class: valid emails
+        assertTrue(BankAccount.isEmailValid( "a@bb.cc"));  //valid -- minimal length domain -- border case -- class: valid emails
 
-        //invalid cases
-        assertFalse(BankAccount.isEmailValid("")); //border case
-        assertFalse(BankAccount.isEmailValid("testemail.com")); //no @ sign
-        assertFalse(BankAccount.isEmailValid("@hotmail.com")); //no prefix before @ sign
-        assertFalse(BankAccount.isEmailValid("a$$a@gmail.com")); //invalid characters
-        assertFalse(BankAccount.isEmailValid("jbob@jimbo.h")); //invalid domain
+        //Invalid Cases:
+        assertFalse(BankAccount.isEmailValid(""));         // empty string -- border case -- class: missing @
+        assertFalse(BankAccount.isEmailValid("testemail.com")); //no @ sign -- border case -- class: missing @
+        assertFalse(BankAccount.isEmailValid("@hotmail.com")); //no prefix before @ sign -- border case -- class: invalid prefix
+        assertFalse(BankAccount.isEmailValid("hotmail.com@jbob")); //domain and prefix are swapped -- border case -- class: invalid domain
+        assertFalse(BankAccount.isEmailValid("a$$a@gmail.com")); //invalid characters -- border case -- class: special characters
+        assertFalse(BankAccount.isEmailValid("jbob@jimbo.h")); //invalid domain -- border case -- class: invalid domain
 
     }
 

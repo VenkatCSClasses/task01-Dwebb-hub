@@ -28,6 +28,8 @@ public class BankAccount {
 
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
+     * if amount is negative, throw InsufficientFundsException
+     * if amount is larger than balance, throw InvalidWithdrawalAmountError
      */
     public void withdraw (double amount) throws InsufficientFundsException{
         if (amount <= balance){
@@ -40,7 +42,33 @@ public class BankAccount {
 
 
     public static boolean isEmailValid(String email){
-        if (email.indexOf('@') == -1){
+        String invalidChars = " !$%^&*()+=[]\\{}|;':\",<>/?`~";
+        if(email == null || email.length() == 0){
+            return false;
+        }
+        if (email.contains("@") == false || email.contains(".") == false){
+            return false;
+        }
+        if (email.chars().anyMatch(c -> invalidChars.indexOf(c) >= 0)){
+            return false;
+        }
+        String[] parts = email.split("@");
+        if (parts.length != 2){
+            return false;
+        }
+        String prefix = parts[0];
+        String domain = parts[1];
+        if (prefix.length() == 0 || domain.length() == 0){
+            return false;
+        }
+        if (domain.contains(".") == false){
+            return false;
+        }
+        String[] domainParts = domain.split("\\.");
+        if (domainParts.length < 2){
+            return false;
+        }
+        if (domainParts[1].length() < 2){
             return false;
         }
         else {
