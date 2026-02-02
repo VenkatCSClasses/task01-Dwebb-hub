@@ -97,6 +97,10 @@ public class BankAccount {
     throws IllegalArgumentException if amnt is invalid
     */
     public void deposit(double amnt){
-        
+        if (isAmountValid(amnt)){
+            this.balance += amnt;
+        }else{
+            throw new IllegalArgumentException("invalid amnt");
+        }
     }
 }
