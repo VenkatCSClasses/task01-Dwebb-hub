@@ -114,4 +114,27 @@ class BankAccountTest {
 
 
     }
+
+    @Test
+    void transferTest() throws InsufficientFundsException{
+        BankAccount bankAccount1 = new BankAccount("a@b.com", 2000);
+        BankAccount bankAccount2 = new BankAccount("c@d.com", 500);
+
+        //valid transfer: middle case with average values
+        bankAccount1.transfer(100,bankAccount2);
+        assertEquals(600, bankAccount2.getBalance(), 0.001);
+        assertEquals(1900, bankAccount1.getBalance(), 0.001);
+        
+        //valid transfer, edge case: transfer whole account
+        bankAccount1.transfer(1900,bankAccount2);
+        assertEquals(2500, bankAccount2.getBalance(), 0.001);
+        assertEquals(0, bankAccount1.getBalance(), 0.001);
+
+        //invalid transfer: invalid amount
+        assertThrows(IllegalArgumentException.class, () -> bankAccount1.transfer(-10,bankAccount2)); 
+        assertThrows(IllegalArgumentException.class, () -> bankAccount1.transfer(10.999,bankAccount2)); 
+
+        //invalid transfer: home account can't afford transfer
+        assertThrows(InsufficientFundsException.class, () -> bankAccount1.transfer(100,bankAccount2)); 
+    }
 }
