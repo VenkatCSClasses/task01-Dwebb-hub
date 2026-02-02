@@ -76,4 +76,17 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
     }
 
+    @Test
+    void isAmountValidTest(){
+        assertFalse(BankAccount.isAmountValid(-5)); //invalid case: middle negative
+        assertFalse(BankAccount.isAmountValid(-0.01)); //invalid edge case: negative but valid decimal 
+        assertFalse(BankAccount.isAmountValid(5.001)); //invalid edge case: 3 decimal places
+        assertFalse(BankAccount.isAmountValid(0.00000000001)); //invalid case: many decimal places
+
+        assertTrue(BankAccount.isAmountValid(5)); //valid case: non-negative integer
+        assertTrue(BankAccount.isAmountValid(5.00)); //valid case: non-negative deicmal with two decimal places
+        assertTrue(BankAccount.isAmountValid(0.01)); //valid edge case: low decimal nearing negative and three places
+
+        
+    }
 }
