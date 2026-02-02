@@ -96,7 +96,7 @@ public class BankAccount {
     if amnt is valid, adds amnt to the balance
     throws IllegalArgumentException if amnt is invalid
     */
-    public static void deposit(double amnt){
+    public void deposit(double amnt){
         
     }
 }
