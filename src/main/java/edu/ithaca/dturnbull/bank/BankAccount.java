@@ -91,4 +91,12 @@ public class BankAccount {
         }
         return false;
     }
+
+    /*
+    if amnt is valid, adds amnt to the balance
+    throws IllegalArgumentException if amnt is invalid
+    */
+    public static void deposit(double amnt){
+        
+    }
 }
