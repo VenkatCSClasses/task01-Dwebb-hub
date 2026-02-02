@@ -46,6 +46,8 @@ class BankAccountTest {
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
         //invalid withdrawal, boundary case: amnt is negative
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-300));
+        //invalid withdrawal, boundary case: amnt is has 3 decimals
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(50.001));
 
 
     }
@@ -74,6 +76,7 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance(), 0.001);
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 100.999));
     }
 
     @Test
