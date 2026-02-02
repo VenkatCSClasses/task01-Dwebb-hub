@@ -109,7 +109,16 @@ public class BankAccount {
     throws IllegalArgumentException if amnt is invalid
     throws InsufficientFundsException if home account cannot afford the transfer
      */
-    public void transfer(double amnt, BankAccount account){
-        
+    public void transfer(double amnt, BankAccount account) throws InsufficientFundsException{
+        if (isAmountValid(amnt)){
+            if (amnt <= balance){
+                this.withdraw(amnt);
+                account.deposit(amnt);
+            }else{
+                throw new InsufficientFundsException("amnt is greater than home balance");
+            }
+        }else{
+            throw new IllegalArgumentException("invalid amnt");
+        }
     }
 }
