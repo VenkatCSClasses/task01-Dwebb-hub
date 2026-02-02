@@ -103,4 +103,13 @@ public class BankAccount {
             throw new IllegalArgumentException("invalid amnt");
         }
     }
+
+    /*
+    if amnt is valid and the home account can afford the transfer, balance is updated in each account
+    throws IllegalArgumentException if amnt is invalid
+    throws InsufficientFundsException if home account cannot afford the transfer
+     */
+    public void transfer(double amnt, BankAccount account){
+        
+    }
 }
